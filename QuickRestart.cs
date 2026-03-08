@@ -1,4 +1,5 @@
-﻿using MegaCrit.Sts2.Core.Localization;
+﻿using MegaCrit.Sts2.Core.Context;
+using MegaCrit.Sts2.Core.Localization;
 
 namespace QuickRestart;
     
@@ -17,20 +18,15 @@ using MegaCrit.Sts2.Core.Nodes.Screens.PauseMenu;
 using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.Saves;
 
-/*
- * TODO:
- * - Disable (hide or grey out button) when it can't be used (Multiplayer)
- */
-
 [HarmonyPatch]
 public class QuickRestart
 {
+    private static String RestartButtonName = "QuickRestartButton";
+    private static NPauseMenuButton _restartButton;
+    
     [HarmonyPatch(typeof(NPauseMenu), "_Ready")]
     public class PauseMenuButtonPatch
     {
-        private static String RestartButtonName = "QuickRestartButton";
-        private static NPauseMenuButton _restartButton;
-
         [HarmonyPostfix]
         static void InitRestartButton(NPauseMenu __instance, Godot.Control ____buttonContainer, NPauseMenuButton ____settingsButton, NPauseMenuButton ____giveUpButton)
         {
@@ -77,6 +73,27 @@ public class QuickRestart
             catch (Exception e)
             {
                 MainFile.Logger.Error($"Ran into error during restart button creation: \n{e.Message}\n{e.StackTrace}");
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(NPauseMenu), "Initialize")]
+    public class OnPauseMenuOpen
+    {
+        [HarmonyPostfix]
+        public static void Postfix(NPauseMenu __instance)
+        {
+            if (_restartButton != null && GodotObject.IsInstanceValid(_restartButton))
+            {
+                if (RunManager.Instance.NetService.Type != NetGameType.Singleplayer ||
+                    __instance._runState.IsGameOver)
+                {
+                    _restartButton.Disable();
+                }
+                else
+                {
+                    _restartButton.Enable();
+                }
             }
         }
     }
