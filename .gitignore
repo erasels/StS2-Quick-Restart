@@ -8,8 +8,7 @@ publish/
 Properties/
 packages/
 .editorconfig
-*.import
-*.uid
+*cs.uid
 *.user
 
 # Created by https://www.toptal.com/developers/gitignore/api/godot,csharp,rider,jetbrains+all
