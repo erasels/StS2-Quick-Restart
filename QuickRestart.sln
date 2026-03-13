@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickRestart", "QuickRestart.csproj", "{A63070FD-52F1-404B-8B5F-15B191F4E5FD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickRestart", "QuickRestart.csproj", "{564BF3D6-3BC3-4E4C-809F-9DC63E519C30}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,11 +9,11 @@ Global
 		ExportRelease|Any CPU = ExportRelease|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A63070FD-52F1-404B-8B5F-15B191F4E5FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A63070FD-52F1-404B-8B5F-15B191F4E5FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A63070FD-52F1-404B-8B5F-15B191F4E5FD}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
-		{A63070FD-52F1-404B-8B5F-15B191F4E5FD}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
-		{A63070FD-52F1-404B-8B5F-15B191F4E5FD}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
-		{A63070FD-52F1-404B-8B5F-15B191F4E5FD}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+		{564BF3D6-3BC3-4E4C-809F-9DC63E519C30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{564BF3D6-3BC3-4E4C-809F-9DC63E519C30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{564BF3D6-3BC3-4E4C-809F-9DC63E519C30}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{564BF3D6-3BC3-4E4C-809F-9DC63E519C30}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{564BF3D6-3BC3-4E4C-809F-9DC63E519C30}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{564BF3D6-3BC3-4E4C-809F-9DC63E519C30}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
 	EndGlobalSection
 EndGlobal

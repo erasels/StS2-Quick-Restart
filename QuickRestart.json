@@ -1,0 +1,11 @@
+{
+  "id": "QuickRestart",
+  "name": "Quick Restart",
+  "author": "erasels",
+  "description": "Provides a button that allows for quickly save&loading a room, undoing any actions taken since entering.",
+  "version": "v1.0.0",
+  "has_pck": true,
+  "has_dll": true,
+  "dependencies": [],
+  "affects_gameplay": false
+}

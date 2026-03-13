@@ -47,7 +47,7 @@ public class QuickRestart
 
         private static void CreateRestartButton(Control btnContainer, NPauseMenuButton settingsBtn, NPauseMenuButton giveUpBtn)
         {
-            MainFile.Logger.Debug("Creating a new save button");
+            MainFile.Logger.Info("Creating a new restart button");
             try
             {
                 _restartButton = (NPauseMenuButton)settingsBtn.Duplicate();

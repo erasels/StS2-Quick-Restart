@@ -1,7 +1,0 @@
-{
-  "pck_name": "QuickRestart",
-  "name": "QuickRestart",
-  "author": "erasels",
-  "description": "Provides a button that allows for quickly save&loading a room, undoing any actions taken since entering.",
-  "version": "v0.0"
-}
