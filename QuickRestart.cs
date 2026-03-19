@@ -69,6 +69,8 @@ public class QuickRestart
                 _restartButton.GetNode<MegaLabel>("Label").SetTextAutoSize(loc.GetFormattedText());
                 _restartButton.Enable();
                 _restartButton.Connect(NClickableControl.SignalName.Released, Callable.From<NButton>(_ => OnPressed()));
+                
+                FixControllerInput(btnContainer);
             }
             catch (Exception e)
             {
@@ -95,6 +97,28 @@ public class QuickRestart
                     _restartButton.Enable();
                 }
             }
+        }
+    }
+    
+    /// <summary>
+    /// Rebuilds the neighbors of the interactable buttons for controller support.
+    /// </summary>
+    private static void FixControllerInput(Control buttonContainer)
+    {
+        var buttons = buttonContainer
+            .GetChildren()
+            .OfType<NPauseMenuButton>()
+            .Where(b => b is { Visible: true, IsEnabled: true })
+            .ToList();
+
+        for (var i = 0; i < buttons.Count; i++)
+        {
+            var btn = buttons[i];
+            var path = btn.GetPath();
+            btn.FocusNeighborLeft = path;
+            btn.FocusNeighborRight = path;
+            btn.FocusNeighborTop = i > 0 ? buttons[i - 1].GetPath() : path;
+            btn.FocusNeighborBottom = i < buttons.Count - 1 ? buttons[i + 1].GetPath() : path;
         }
     }
 
