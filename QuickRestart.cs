@@ -21,6 +21,19 @@ using MegaCrit.Sts2.Core.Saves;
 [HarmonyPatch]
 public class QuickRestart
 {
+    public static void SetNPauseMenuButtonHSV(NPauseMenuButton __instance, ShaderMaterial m)
+    {
+        var field = typeof(NPauseMenuButton).GetField("_hsv", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+        field?.SetValue(__instance, m);
+    }
+
+    public static IRunState? GetNPauseMenuRunState(NPauseMenu __instance)
+    {
+        var field = typeof(NPauseMenu).GetField("_runState", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+        var value = field?.GetValue(__instance) as IRunState;
+        return value;
+    }
+
     private static String RestartButtonName = "QuickRestartButton";
     private static NPauseMenuButton _restartButton;
     
@@ -58,7 +71,7 @@ public class QuickRestart
                 image.Material = (ShaderMaterial)image.Material.Duplicate();
                 
                 // Update the internal _hsv reference to point to the new material
-                _restartButton._hsv = (ShaderMaterial)image.Material;
+                SetNPauseMenuButtonHSV(_restartButton, (ShaderMaterial)image.Material);
                 
                 // Add button above the give up button
                 btnContainer.AddChild(_restartButton);
@@ -88,7 +101,7 @@ public class QuickRestart
             if (_restartButton != null && GodotObject.IsInstanceValid(_restartButton))
             {
                 if (RunManager.Instance.NetService.Type != NetGameType.Singleplayer ||
-                    __instance._runState.IsGameOver)
+                    GetNPauseMenuRunState(__instance)?.IsGameOver == true)
                 {
                     _restartButton.Disable();
                 }
