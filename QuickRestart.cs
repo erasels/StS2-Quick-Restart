@@ -129,7 +129,7 @@ public class QuickRestart
     {
         if (RunManager.Instance.NetService.Type != NetGameType.Singleplayer)
         {
-            MainFile.Logger.Error("Not in singleplayer!!! How did this get called");
+            MainFile.Logger.Error("Not in singleplayer, aborting");
             return;
         }
 
