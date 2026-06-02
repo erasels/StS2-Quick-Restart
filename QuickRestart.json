@@ -4,6 +4,7 @@
   "author": "erasels",
   "description": "Provides a button that allows for quickly save&loading a room, undoing any actions taken since entering.",
   "version": "v1.0.0",
+  "min_game_version": "0.106.1",
   "has_pck": true,
   "has_dll": true,
   "dependencies": [],
