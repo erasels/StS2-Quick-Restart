@@ -17,16 +17,6 @@ public class Keybind
 
     private static void Postfix(InputEvent inputEvent)
     {
-        // Skip logic if feedback screen is open
-        if (inputEvent is InputEventKey)
-        {
-            NGame? instance = NGame.Instance;
-            if (instance is { FeedbackScreen.Visible: true })
-            {
-                return;
-            }
-        }
-
         if (inputEvent is InputEventKey { Keycode: Key.R } inputKey)
         {
             switch (inputKey.Pressed)

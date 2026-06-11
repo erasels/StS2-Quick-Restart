@@ -154,7 +154,7 @@ public class QuickRestart
         MainFile.Logger.Info("Managed to load run data");
 
         // Make use of run data to reload current run
-        RunManager.Instance.SetUpSavedSinglePlayer(runState, serializableRun);
+        RunManager.Instance.SetUpSavedSingleplayer(runState, serializableRun);
         MainFile.Logger.Info($"Continuing run with character: {serializableRun.Players[0].CharacterId}");
         SfxCmd.Play(runState.Players[0].Character.CharacterTransitionSfx);
         NGame.Instance.ReactionContainer.InitializeNetworking(new NetSingleplayerGameService());
