@@ -2,7 +2,7 @@
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Nodes;
 
-namespace QuickRestart;
+namespace QuickRestart.QuickRestartCode;
 
 [HarmonyPatch(typeof(NGame), "_Input")]
 public class Keybind
@@ -39,7 +39,7 @@ public class Keybind
             if (num >= HOLD_DUR)
             {
                 _triggered = true;
-                QuickRestart.RestartRoom();
+                Restarter.RestartRoom();
             }
         }
     }

@@ -1,9 +1,5 @@
 ﻿using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Localization;
-
-namespace QuickRestart;
-    
-using System;
 using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.addons.mega_text;
@@ -18,10 +14,12 @@ using MegaCrit.Sts2.Core.Nodes.Screens.PauseMenu;
 using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.Saves;
 
+namespace QuickRestart.QuickRestartCode;
+
 [HarmonyPatch]
-public class QuickRestart
+public class Restarter
 {
-    private static String RestartButtonName = "QuickRestartButton";
+    private static string RestartButtonName = "QuickRestartButton";
     private static NPauseMenuButton _restartButton;
     
     [HarmonyPatch(typeof(NPauseMenu), "_Ready")]
