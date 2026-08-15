@@ -21,6 +21,8 @@ public class Restarter
 {
     private static string RestartButtonName = "QuickRestartButton";
     private static NPauseMenuButton _restartButton;
+
+    private static bool _isRestarting;
     
     [HarmonyPatch(typeof(NPauseMenu), "_Ready")]
     public class PauseMenuButtonPatch
@@ -40,7 +42,7 @@ public class Restarter
         
         private static void OnPressed()
         {
-            RestartRoom();
+            TaskHelper.RunSafely(RestartRoomAsync());
         }
 
         private static void CreateRestartButton(Control btnContainer, NPauseMenuButton settingsBtn, NPauseMenuButton giveUpBtn)
@@ -123,8 +125,14 @@ public class Restarter
     /// <summary>
     /// Restarts the current room in single player. Restarting works by mimicking exiting the run and then loading it.
     /// </summary>
-    public static void RestartRoom()
+    public static async Task RestartRoomAsync()
     {
+        if (_isRestarting)
+        {
+            MainFile.Logger.Info("Restart already in progress, ignoring request");
+            return;
+        }
+
         if (RunManager.Instance.NetService.Type != NetGameType.Singleplayer)
         {
             MainFile.Logger.Error("Not in singleplayer, aborting");
@@ -137,25 +145,60 @@ public class Restarter
             return;
         }
 
-        // Cleaning up the current room
-        RunManager.Instance.ActionQueueSet.Reset();
-        NRunMusicController.Instance.StopMusic();
-        RunManager.Instance.CleanUp();
+        _isRestarting = true;
+        if (_restartButton != null && GodotObject.IsInstanceValid(_restartButton))
+        {
+            _restartButton.Disable();
+        }
 
-        MainFile.Logger.Info("Cleaned up, starting load now");
+        try
+        {
+            MainFile.Logger.Info("Cleaning up the current room");
 
-        // Loads run data
-        ReadSaveResult<SerializableRun> runSave = SaveManager.Instance.LoadRunSave();
-        SerializableRun serializableRun = runSave.SaveData;
-        RunState runState = RunState.FromSerializable(serializableRun);
+            // Cleaning up the current room
+            NRunMusicController.Instance.StopMusic();
+            RunManager.Instance.CleanUp();
 
-        MainFile.Logger.Info("Managed to load run data");
+            MainFile.Logger.Info("Cleaned up, starting load now");
 
-        // Make use of run data to reload current run
-        RunManager.Instance.SetUpSavedSingleplayer(runState, serializableRun);
-        MainFile.Logger.Info($"Continuing run with character: {serializableRun.Players[0].CharacterId}");
-        SfxCmd.Play(runState.Players[0].Character.CharacterTransitionSfx);
-        NGame.Instance.ReactionContainer.InitializeNetworking(new NetSingleplayerGameService());
-        TaskHelper.RunSafely(NGame.Instance.LoadRun(runState, serializableRun.PreFinishedRoom));
+            // Loads run data
+            var runSave = SaveManager.Instance.LoadRunSave();
+            if (!runSave.Success || runSave.SaveData == null)
+            {
+                throw new InvalidOperationException($"Failed to load run save (status: {runSave.Status}).");
+            }
+            
+            SerializableRun serializableRun = runSave.SaveData;
+            RunState runState = RunState.FromSerializable(serializableRun);
+
+            MainFile.Logger.Info("Managed to load run data");
+
+            // Make use of run data to reload current run
+            await RunManager.Instance.SetUpSavedSingleplayer(runState, serializableRun);
+            MainFile.Logger.Info($"Continuing run with character: {serializableRun.Players[0].CharacterId}");
+            
+            SfxCmd.Play(runState.Players[0].Character.CharacterTransitionSfx);
+            NGame.Instance.ReactionContainer.InitializeNetworking(new NetSingleplayerGameService());
+            await NGame.Instance.LoadRun(runState, serializableRun.PreFinishedRoom);
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Error($"Ran into error during restart: \n{e.Message}\n{e.StackTrace}");
+            try
+            {
+                RunManager.Instance.CleanUp();
+            }
+            catch (Exception cleanupEx)
+            {
+                MainFile.Logger.Error($"Error during cleanup after failed restart: \n{cleanupEx.Message}");
+            }
+
+            await NGame.Instance.ReturnToMainMenuAfterRun();
+            throw;
+        }
+        finally
+        {
+            _isRestarting = false;
+        }
     }
 }

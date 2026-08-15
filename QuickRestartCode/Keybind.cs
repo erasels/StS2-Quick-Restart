@@ -1,5 +1,6 @@
 ﻿using Godot;
 using HarmonyLib;
+using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Nodes;
 
 namespace QuickRestart.QuickRestartCode;
@@ -39,7 +40,7 @@ public class Keybind
             if (num >= HOLD_DUR)
             {
                 _triggered = true;
-                Restarter.RestartRoom();
+                TaskHelper.RunSafely(Restarter.RestartRoomAsync());
             }
         }
     }
