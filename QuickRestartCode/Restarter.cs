@@ -1,5 +1,4 @@
-﻿using MegaCrit.Sts2.Core.Context;
-using MegaCrit.Sts2.Core.Localization;
+﻿using MegaCrit.Sts2.Core.Localization;
 using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.addons.mega_text;
@@ -216,6 +215,20 @@ public class Restarter
         finally
         {
             _isRestarting = false;
+        }
+    }
+    
+    public static bool CanRestart()
+    {
+        try
+        {
+            var run = RunManager.Instance;
+            return run is { IsInProgress: true, IsGameOver: false, NetService.Type: NetGameType.Singleplayer }
+                   && SaveManager.Instance?.HasRunSave == true;
+        }
+        catch
+        {
+            return false;
         }
     }
 }
