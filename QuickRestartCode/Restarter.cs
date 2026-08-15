@@ -99,6 +99,23 @@ public class Restarter
             }
         }
     }
+
+    /// <summary>
+    /// CloseToMenu disables every pause menu button so they dim to gray, but it only knows about the hardcoded set of buttons and
+    /// not the restart button. Disable it here so it dims in sync with the others.
+    /// </summary>
+    [HarmonyPatch(typeof(NPauseMenu), "CloseToMenu")]
+    public class ButtonDimmingFixPatch
+    {
+        [HarmonyPrefix]
+        public static void Prefix()
+        {
+            if (_restartButton != null && GodotObject.IsInstanceValid(_restartButton))
+            {
+                _restartButton.Disable();
+            }
+        }
+    }
     
     /// <summary>
     /// Rebuilds the neighbors of the interactable buttons for controller support.
