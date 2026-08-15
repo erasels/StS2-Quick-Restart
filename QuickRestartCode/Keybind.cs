@@ -8,8 +8,6 @@ namespace QuickRestart.QuickRestartCode;
 [HarmonyPatch(typeof(NGame), "_Input")]
 public class Keybind
 {
-    private static ulong HOLD_DUR = 2000;
-
     private static ulong _pressStartTime;
 
     private static bool _isPressed;
@@ -37,7 +35,7 @@ public class Keybind
         if (_isPressed && !_triggered)
         {
             var num = Time.GetTicksMsec() - _pressStartTime;
-            if (num >= HOLD_DUR)
+            if (Convert.ToInt32(num.ToString()) >= Config.HoldDur)
             {
                 _triggered = true;
                 TaskHelper.RunSafely(Restarter.RestartRoomAsync());
