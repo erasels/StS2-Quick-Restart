@@ -1,5 +1,7 @@
 {
   "QUICKRESTART.mod_title": "快速重启 2",
-  "QUICKRESTART-HOLD_DUR.title": "按住 R 键重启房间的时长",
-  "QUICKRESTART-SHOW_INDICATOR.title": "显示按住重启的进度指示器"
+  "QUICKRESTART-HOLD_DUR.title": "长按重启的持续时间",
+  "QUICKRESTART-SHOW_INDICATOR.title": "显示长按重启的进度指示器",
+  "QUICKRESTART-RESTART_KEY.title": "长按重启按键",
+  "QUICKRESTART-RESTART_KEY.listening": "请按下一个键..."
 }

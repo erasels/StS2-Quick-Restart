@@ -1,5 +1,7 @@
 {
   "QUICKRESTART.mod_title": "Quick Restart 2",
-  "QUICKRESTART-HOLD_DUR.title": "Duration to hold R-Key for restart",
-  "QUICKRESTART-SHOW_INDICATOR.title": "Show hold-to-restart progress indicator"
+  "QUICKRESTART-HOLD_DUR.title": "Hold-to-restart key restart duration",
+  "QUICKRESTART-SHOW_INDICATOR.title": "Show hold-to-restart progress indicator",
+  "QUICKRESTART-RESTART_KEY.title": "Hold-to-restart key",
+  "QUICKRESTART-RESTART_KEY.listening": "Press a key..."
 }

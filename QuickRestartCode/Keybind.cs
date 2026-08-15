@@ -15,7 +15,12 @@ public class Keybind
     {
         HoldProgressIndicator.EnsureCreated();
 
-        if (inputEvent is not InputEventKey { Keycode: Key.R } inputKey)
+        if (inputEvent is not InputEventKey inputKey)
+        {
+            return;
+        }
+
+        if (inputKey.Keycode != Config.RestartKey)
         {
             return;
         }

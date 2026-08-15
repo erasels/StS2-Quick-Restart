@@ -9,7 +9,7 @@ using MegaCrit.Sts2.Core.Saves;
 namespace QuickRestart.QuickRestartCode;
 
 /// <summary>
-/// A radial progress circle that follows the mouse cursor while the reload key (R) is held.
+/// A radial progress circle that follows the mouse cursor while the reload key is held.
 /// Uses Godot's <see cref="TextureProgressBar"/> with radial fill.
 /// </summary>
 public partial class HoldProgressIndicator : TextureProgressBar
